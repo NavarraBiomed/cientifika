@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cientifika_app',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -76,8 +77,11 @@ WSGI_APPLICATION = 'cientifika.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'cientifika$default',
+        'USER': 'cientifika',
+        'PASSWORD': 'granadadenada',
+        'HOST': 'cientifika.mysql.pythonanywhere-services.com',
     }
 }
 
