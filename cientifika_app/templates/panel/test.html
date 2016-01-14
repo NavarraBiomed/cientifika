@@ -1,0 +1,34 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Cientifika - Panel</title>
+        <script type="text/javascript" src="{% static 'panel/lib/js/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'panel/lib/js/bootstrap.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'panel/lib/js/crossfilter.js' %}"></script>
+        <script type="text/javascript" src="{% static 'panel/lib/js/d3.js' %}"></script>
+        <script type="text/javascript" src="{% static 'panel/lib/js/dc.js' %}"></script>
+        <script type="text/javascript" src="{% static 'panel/lib/js/keen.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'panel/lib/js/queue.js' %}"></script>
+        <script type="text/javascript" src="{% static 'panel/js/panel.js' %}"></script>
+    </head>
+	<body>
+	<div class="content">
+	    <div class="container">
+	      <div class="row">
+
+	        <div class="col-sm-6">
+	          <h2><a href="./examples/">Examples</a></h2>
+	          <a href="./examples/"><img class="img-responsive img-thumbnail" src="./examples/starter-kit/preview.png"></a>
+	        </div>
+
+	        <div class="col-sm-6">
+	          <h2><a href="./layouts/">Layouts</a></h2>
+	          <a href="./layouts/"><img class="img-responsive img-thumbnail" src="./layouts/quarter-grid/preview.png"></a>
+	        </div>
+
+	      </div>
+	    </div>
+	</div>
+
+	</body>
+</html>
