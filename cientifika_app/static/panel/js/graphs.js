@@ -2,7 +2,7 @@ console.log("graphs.js loaded");
 console.log("STATIC_URL = "+STATIC_URL);
 
 queue()
-    .defer(d3.json, STATIC_URL+"panel/data.json")
+    .defer(d3.json, STATIC_URL+"panel/data_min.json")
     .await(makeGraphs);
 
 function makeGraphs(error, articulosJson) {
@@ -19,20 +19,32 @@ function makeGraphs(error, articulosJson) {
 	var ndx = crossfilter(articulosJson);
 
 	//Define Dimensions
-	var dateDim = ndx.dimension(function(d) { return d["a\u00f1opub"]; });
+	var dateDim = ndx.dimension(function(d) { return d["year"]; });
 	var publicoPrivadoDim = ndx.dimension(function(d) { return d["Publico"]; });
 	var hospitalarioDim = ndx.dimension(function(d) { return d["Hospitalario"]; });
 	var centroDim = ndx.dimension(function(d) { return d["Centro"]; });
 
 	//Calculate metrics
-	var numArticlesByDate = dateDim.group(); 
+	var numArticlesByDate = dateDim.group();
+
+	numArticlesByDate.reduce(
+		uniqueAdd(),
+		uniqueRemove(),
+		uniqueInit()
+	    );
+	
 	var numArticlesByPublicoPrivado = publicoPrivadoDim.group();
 	var numArticlesByHospitalario = hospitalarioDim.group();
 	var numArticlesByCentro = centroDim.group();
 	
-	var minDate = dateDim.bottom(1)[0]["a\u00f1opub"];
-	var maxDate = dateDim.top(1)[0]["a\u00f1opub"];
-	
+	var minDate = dateDim.bottom(1)[0]["year"];
+	var maxDate = dateDim.top(1)[0]["year"];
+	maxDate++;
+
+	/*hNumByDate.top(Infinity).forEach(function (d){
+		console.log(d.key);
+	});*/
+
     //Charts
 	var timeChart = dc.barChart("#time-chart");
 	var publicoPrivadoBarChart = dc.rowChart("#publico-privado-row-chart");
@@ -62,9 +74,11 @@ function makeGraphs(error, articulosJson) {
 		    path.enter().append('path').attr('class', 'extra').attr('stroke', 'red');
 		    path.attr('d', line);
 		})
-		.xAxisLabel("Year")	
+		.xAxisLabel("Year")
+		.valueAccessor(function (d) {
+            return d.value.count;
+        })	
 		.yAxis().ticks(4);	
-
 
 	publicoPrivadoBarChart
         .width(500)
